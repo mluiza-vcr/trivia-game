@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import fetchToken from '../services/api';
 
@@ -56,6 +56,10 @@ class Login extends Component {
       <div className="App">
         <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
+
+          <button type="button" data-testid="btn-settings">
+            <Link to="/settings">Settings</Link>
+          </button>
         </header>
 
         <div>
