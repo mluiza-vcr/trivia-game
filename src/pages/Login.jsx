@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
-import { Link, Redirect } from 'react-router-dom';
+import fetchToken from '../services/api';
 
 import logo from '../trivia.png';
 import '../App.css';
+import { setStorage } from '../helper/localStorage';
 
 class Login extends Component {
   constructor() {
@@ -39,7 +41,9 @@ class Login extends Component {
   }
 
   handleFetchToken() {
-    console.log('oi');
+    const token = fetchToken();
+    setStorage('token', token);
+
     this.setShouldRedirect();
   }
 
