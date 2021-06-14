@@ -40,8 +40,8 @@ class Login extends Component {
     this.setState({ [name]: value });
   }
 
-  handleFetchToken() {
-    const token = fetchToken();
+  async handleFetchToken() {
+    const { token } = await fetchToken();
     setStorage('token', token);
 
     this.setShouldRedirect();
@@ -55,26 +55,26 @@ class Login extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={ logo } className="App-logo" alt="logo" />
+          <img src={logo} className="App-logo" alt="logo" />
         </header>
 
         <div>
           <input
             data-testid="input-player-name"
-            onChange={ this.handleChange }
+            onChange={this.handleChange}
             name="name"
           />
           <input
             data-testid="input-gravatar-email"
             type="email"
-            onChange={ this.handleChange }
+            onChange={this.handleChange}
             name="email"
           />
           <button
             data-testid="btn-play"
             type="button"
-            disabled={ this.isDisabled() }
-            onClick={ this.handleFetchToken }
+            disabled={this.isDisabled()}
+            onClick={this.handleFetchToken}
           >
             Jogar
           </button>
