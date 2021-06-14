@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import logo from '../trivia.png';
 import '../App.css';
@@ -12,10 +12,16 @@ class Login extends Component {
     this.state = {
       email: '',
       name: '',
+      shouldRedirect: false,
     };
 
     this.isDisabled = this.isDisabled.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleFetchToken = this.handleFetchToken.bind(this);
+  }
+
+  setShouldRedirect() {
+    this.setState({ shouldRedirect: true });
   }
 
   isDisabled() {
@@ -32,7 +38,16 @@ class Login extends Component {
     this.setState({ [name]: value });
   }
 
+  handleFetchToken() {
+    console.log('oi');
+    this.setShouldRedirect();
+  }
+
   render() {
+    const { shouldRedirect } = this.state;
+
+    if (shouldRedirect) return <Redirect to="/game" />;
+
     return (
       <div className="App">
         <header className="App-header">
@@ -55,8 +70,9 @@ class Login extends Component {
             data-testid="btn-play"
             type="button"
             disabled={ this.isDisabled() }
+            onClick={ this.handleFetchToken }
           >
-            <Link to="/game">Jogar</Link>
+            Jogar
           </button>
         </div>
       </div>

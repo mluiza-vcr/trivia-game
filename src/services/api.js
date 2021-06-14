@@ -5,3 +5,5 @@ const fetchToken = async () => {
   const json = await response.json();
   return json;
 };
+
+export default fetchToken;
