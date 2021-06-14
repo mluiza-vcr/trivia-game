@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
+import { func } from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
+import addUser from '../redux/actions/addUser';
 import fetchToken from '../services/api';
+import { setStorage } from '../helper/localStorage';
 
 import logo from '../trivia.png';
 import '../App.css';
-import { setStorage } from '../helper/localStorage';
 
 class Login extends Component {
   constructor() {
@@ -20,6 +24,7 @@ class Login extends Component {
     this.isDisabled = this.isDisabled.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleFetchToken = this.handleFetchToken.bind(this);
+    this.createUser = this.createUser.bind(this);
   }
 
   setShouldRedirect() {
@@ -40,11 +45,24 @@ class Login extends Component {
     this.setState({ [name]: value });
   }
 
+  createUser() {
+    const { email, name } = this.state;
+
+    const user = {
+      email,
+      name,
+    };
+
+    return user;
+  }
+
   async handleFetchToken() {
+    const { props } = this;
     const { token } = await fetchToken();
     setStorage('token', token);
 
     this.setShouldRedirect();
+    props.addUser(this.createUser());
   }
 
   render() {
@@ -67,12 +85,14 @@ class Login extends Component {
             data-testid="input-player-name"
             onChange={ this.handleChange }
             name="name"
+            placeholder="name"
           />
           <input
             data-testid="input-gravatar-email"
             type="email"
             onChange={ this.handleChange }
             name="email"
+            placeholder="email"
           />
           <button
             data-testid="btn-play"
@@ -88,4 +108,16 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => (
+  bindActionCreators({ addUser }, dispatch)
+);
+
+// const mapDispatchToProps = (dispatch) => ({
+//   addUserProps: (user) => dispatch(addUser(user)),
+// });
+
+Login.propTypes = {
+  addUser: func,
+}.isRequired;
+
+export default connect(null, mapDispatchToProps)(Login);

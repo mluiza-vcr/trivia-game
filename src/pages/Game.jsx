@@ -1,13 +1,32 @@
 import React, { Component } from 'react';
+import { shape, string } from 'prop-types';
+import { connect } from 'react-redux';
 
 class Game extends Component {
   render() {
+    const { user } = this.props;
+    const { name } = user;
+
     return (
-      <div>
-        <h1>Oi, Mundo!</h1>
-      </div>
+      <section>
+        <header>
+          <img data-testid="header-profile-picture" alt="profile gravatar" />
+          <h1 data-testid="header-player-name">{name}</h1>
+          <p data-testid="header-score">0</p>
+        </header>
+      </section>
     );
   }
 }
 
-export default Game;
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+Game.propTypes = {
+  user: shape({
+    name: string,
+  }),
+}.isRequired;
+
+export default connect(mapStateToProps)(Game);
