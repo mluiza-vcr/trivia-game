@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+
+import { Link } from 'react-router-dom';
+
 import logo from '../trivia.png';
 import '../App.css';
 
@@ -30,8 +33,6 @@ class Login extends Component {
   }
 
   render() {
-    console.log(this.isDisabled());
-
     return (
       <div className="App">
         <header className="App-header">
@@ -55,7 +56,7 @@ class Login extends Component {
             type="button"
             disabled={ this.isDisabled() }
           >
-            Jogar
+            <Link to="/game">Jogar</Link>
           </button>
         </div>
       </div>
