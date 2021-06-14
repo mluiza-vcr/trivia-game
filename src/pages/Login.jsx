@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import fetchToken from '../services/api';
 
@@ -76,7 +76,7 @@ class Login extends Component {
             disabled={ this.isDisabled() }
             onClick={ this.handleFetchToken }
           >
-            <Link to="/game">Jogar</Link>
+            Jogar
           </button>
         </div>
       </div>
