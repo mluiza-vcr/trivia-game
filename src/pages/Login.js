@@ -39,9 +39,22 @@ class Login extends Component {
         </header>
 
         <div>
-          <input onChange={ this.handleChange } name="name" />
-          <input type="email" onChange={ this.handleChange } name="email" />
-          <button type="button" disabled={ this.isDisabled() }>
+          <input
+            data-testid="input-player-name"
+            onChange={ this.handleChange }
+            name="name"
+          />
+          <input
+            data-testid="input-gravatar-email"
+            type="email"
+            onChange={ this.handleChange }
+            name="email"
+          />
+          <button
+            data-testid="btn-play"
+            type="button"
+            disabled={ this.isDisabled() }
+          >
             Jogar
           </button>
         </div>
