@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import fetchToken from '../services/api';
 
@@ -55,28 +55,28 @@ class Login extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <img src={ logo } className="App-logo" alt="logo" />
         </header>
 
         <div>
           <input
             data-testid="input-player-name"
-            onChange={this.handleChange}
+            onChange={ this.handleChange }
             name="name"
           />
           <input
             data-testid="input-gravatar-email"
             type="email"
-            onChange={this.handleChange}
+            onChange={ this.handleChange }
             name="email"
           />
           <button
             data-testid="btn-play"
             type="button"
-            disabled={this.isDisabled()}
-            onClick={this.handleFetchToken}
+            disabled={ this.isDisabled() }
+            onClick={ this.handleFetchToken }
           >
-            Jogar
+            <Link to="/game">Jogar</Link>
           </button>
         </div>
       </div>
