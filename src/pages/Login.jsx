@@ -5,7 +5,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import addUser from '../redux/actions/addUser';
-import fetchToken from '../services/api';
+import fetchGameThunk from '../redux/actions/addQuestion';
+import { fetchToken } from '../services/api';
 import { setStorage } from '../helper/localStorage';
 
 import logo from '../trivia.png';
@@ -63,6 +64,8 @@ class Login extends Component {
 
     this.setShouldRedirect();
     props.addUser(this.createUser());
+    props.fetchGameThunk();
+
   }
 
   render() {
@@ -109,7 +112,7 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => (
-  bindActionCreators({ addUser }, dispatch)
+  bindActionCreators({ addUser, fetchGameThunk }, dispatch)
 );
 
 // const mapDispatchToProps = (dispatch) => ({

@@ -1,3 +1,5 @@
+import { getStorage } from '../helper/localStorage';
+
 const tokenURL = 'https://opentdb.com/api_token.php?command=request';
 
 export const fetchToken = async () => {
