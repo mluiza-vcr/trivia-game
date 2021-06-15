@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { shape, string } from 'prop-types';
 import { connect } from 'react-redux';
+import './game.css';
 
 class Game extends Component {
   constructor() {
@@ -8,25 +9,28 @@ class Game extends Component {
 
     this.state = {
       questionNumber: 0,
-      // hasBeenChosen: false,
+      hasBeenChosen: false,
     };
     this.renderMain = this.renderMain.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleChosen = this.handleChosen.bind(this);
   }
 
   handleClick() {
     this.setState((oldState) => ({
       questionNumber: oldState.questionNumber + 1,
+      hasBeenChosen: false,
     }));
   }
 
-  // handleChosen() {
-  //   this.setState({
-  //     hasBeenChosen: true,
-  //   }),
-  // }
+  handleChosen() {
+    this.setState({
+      hasBeenChosen: true,
+    });
+  }
 
   renderMain(questions) {
+    const { hasBeenChosen } = this.state;
     const {
       category,
       question,
@@ -34,12 +38,26 @@ class Game extends Component {
       incorrect_answers: incorrectAnswers } = questions;
 
     const button = (text, index) => (
-      <button type="button" data-testid={ `wrong-answer-${index}` }>{text}</button>
+      <button
+        onClick={ this.handleChosen }
+        className={ hasBeenChosen ? 'incorrect' : '' }
+        type="button"
+        data-testid={ `wrong-answer-${index}` }
+      >
+        {text}
+      </button>
     );
 
     const incorrect = incorrectAnswers.map((answer, index) => button(answer, index));
     const correct = (
-      <button type="button" data-testid="correct-answer">{correctAnswer}</button>
+      <button
+        onClick={ this.handleChosen }
+        className={ hasBeenChosen ? 'correct' : '' }
+        type="button"
+        data-testid="correct-answer"
+      >
+        {correctAnswer}
+      </button>
     );
 
     const answers = [...incorrect, correct];
