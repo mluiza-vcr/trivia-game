@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { func } from 'prop-types';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -19,17 +19,12 @@ class Login extends Component {
     this.state = {
       email: '',
       name: '',
-      shouldRedirect: false,
     };
 
     this.isDisabled = this.isDisabled.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleFetchToken = this.handleFetchToken.bind(this);
     this.createUser = this.createUser.bind(this);
-  }
-
-  setShouldRedirect() {
-    this.setState({ shouldRedirect: true });
   }
 
   isDisabled() {
@@ -62,17 +57,12 @@ class Login extends Component {
     const { token } = await fetchToken();
     setStorage('token', token);
 
-    this.setShouldRedirect();
     props.addUser(this.createUser());
-    props.fetchGameThunk();
-
+    props.history.push('/game');
+    props.fetchGameThunk(token);
   }
 
   render() {
-    const { shouldRedirect } = this.state;
-
-    if (shouldRedirect) return <Redirect to="/game" />;
-
     return (
       <div className="App">
         <header className="App-header">
@@ -111,6 +101,10 @@ class Login extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  shouldRedirect: state.game.shouldRedirect,
+});
+
 const mapDispatchToProps = (dispatch) => (
   bindActionCreators({ addUser, fetchGameThunk }, dispatch)
 );
@@ -123,4 +117,4 @@ Login.propTypes = {
   addUser: func,
 }.isRequired;
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

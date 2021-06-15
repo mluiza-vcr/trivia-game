@@ -6,9 +6,14 @@ const addQuestion = (payload) => ({
   payload,
 });
 
-const fetchGameThunk = () => async (dispatch) => {
-  const { results } = await fetchQuestions();
+const setRedirect = () => ({
+  type: actions.SET_REDIRECT,
+});
+
+const fetchGameThunk = (token) => async (dispatch) => {
+  const { results } = await fetchQuestions(token);
   dispatch(addQuestion(results));
+  dispatch(setRedirect());
 };
 
 export default fetchGameThunk;
