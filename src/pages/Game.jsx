@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { shape, string } from 'prop-types';
 import { connect } from 'react-redux';
+import Countdown from '../components/Countdown';
 import './game.css';
 
 class Game extends Component {
@@ -10,10 +11,20 @@ class Game extends Component {
     this.state = {
       questionNumber: 0,
       hasBeenChosen: false,
+      correctAnswer: false,
+      isDisabled: false,
+      resetCountDown: false,
     };
     this.renderMain = this.renderMain.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleChosen = this.handleChosen.bind(this);
+    this.toggleState = this.toggleState.bind(this);
+  }
+
+  toggleState(state) {
+    this.setState((oldState) => ({
+      [state]: !oldState[state],
+    }));
   }
 
   handleClick() {
@@ -21,6 +32,7 @@ class Game extends Component {
       questionNumber: oldState.questionNumber + 1,
       hasBeenChosen: false,
     }));
+    this.toggleState('resetCountDown');
   }
 
   handleChosen() {
@@ -30,7 +42,7 @@ class Game extends Component {
   }
 
   renderMain(questions) {
-    const { hasBeenChosen } = this.state;
+    const { hasBeenChosen, isDisabled } = this.state;
     const {
       category,
       question,
@@ -43,6 +55,7 @@ class Game extends Component {
         className={ hasBeenChosen ? 'incorrect' : '' }
         type="button"
         data-testid={ `wrong-answer-${index}` }
+        disabled={ isDisabled }
       >
         {text}
       </button>
@@ -55,6 +68,7 @@ class Game extends Component {
         className={ hasBeenChosen ? 'correct' : '' }
         type="button"
         data-testid="correct-answer"
+        disabled={ isDisabled }
       >
         {correctAnswer}
       </button>
@@ -77,7 +91,7 @@ class Game extends Component {
     const { user, game } = this.props;
     const { name } = user;
     const { questions } = game;
-    const { questionNumber } = this.state;
+    const { questionNumber, resetCountDown } = this.state;
     const currentQuestion = questions[questionNumber];
     const maxLength = 4;
 
@@ -88,6 +102,10 @@ class Game extends Component {
           <h1 data-testid="header-player-name">{name}</h1>
           <p data-testid="header-score">0</p>
         </header>
+        <Countdown
+          toggleState={ this.toggleState }
+          resetCountDown={ resetCountDown }
+        />
         {questions.length > 0 && this.renderMain(currentQuestion)}
         <button
           type="button"
