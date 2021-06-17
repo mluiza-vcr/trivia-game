@@ -8,8 +8,9 @@ class Feedback extends Component {
     const { name, assertions, score, gravatarEmail } = player;
 
     const minAssertions = 3;
-    const feedbackText =
-      assertions < minAssertions ? 'Podia ser melhor...' : 'Mandou bem!';
+    const feedbackText = assertions < minAssertions
+      ? 'Podia ser melhor...'
+      : 'Mandou bem!';
 
     return (
       <main>
@@ -17,7 +18,7 @@ class Feedback extends Component {
           <img
             data-testid="header-profile-picture"
             alt="gravatar"
-            src={gravatarEmail}
+            src={ gravatarEmail }
           />
           <span data-testid="header-player-name">{name}</span>
           <span data-testid="header-score">{score}</span>
@@ -32,7 +33,7 @@ class Feedback extends Component {
         <button
           type="button"
           data-testid="btn-play-again"
-          onClick={() => history.push('/')}
+          onClick={ () => history.push('/') }
         >
           Jogar novamente
         </button>
@@ -40,7 +41,7 @@ class Feedback extends Component {
         <button
           type="button"
           data-testid="btn-ranking"
-          onClick={() => history.push('/ranking')}
+          onClick={ () => history.push('/ranking') }
         >
           Ver Ranking
         </button>
