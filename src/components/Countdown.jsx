@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import addTime from '../redux/actions/addTime';
 
-const initialState = { time: 30, hasBeenDisabled: false };
+const initialState = { time: 5, hasBeenDisabled: false };
 
 class Countdown extends Component {
   constructor() {

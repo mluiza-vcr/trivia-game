@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { shape, string, func } from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { shape, string, func } from 'prop-types';
+
 import Countdown from '../components/Countdown';
+
 import addScore from '../redux/actions/addScore';
-import { setJson } from '../helper/localStorage';
+import addRanking from '../redux/actions/addRanking';
+import { setJson, storageRanking } from '../helper/localStorage';
 import level from '../services/level';
+
 import './game.css';
 
 class Game extends Component {
@@ -23,18 +27,15 @@ class Game extends Component {
     this.handleChosen = this.handleChosen.bind(this);
     this.toggleState = this.toggleState.bind(this);
     this.getPoints = this.getPoints.bind(this);
+    this.getPlayer = this.getPlayer.bind(this);
   }
 
-  getPoints() {
+  getPlayer() {
     const { questionNumber } = this.state;
-    const {
-      game: { questions, time },
-      player,
-      addScore: addScoreProps,
-    } = this.props;
+    const { game: { questions, time }, player } = this.props;
     const { difficulty } = questions[questionNumber];
     const numberPoints = 10;
-    const score = numberPoints + time * level[difficulty];
+    const score = numberPoints + (time * level[difficulty]);
     const newPlayer = {
       player: {
         ...player,
@@ -42,6 +43,14 @@ class Game extends Component {
         score: player.score + score,
       },
     };
+
+    return newPlayer;
+  }
+
+  getPoints() {
+    const { addScore: addScoreProps } = this.props;
+    const newPlayer = this.getPlayer();
+
     setJson('state', newPlayer);
     addScoreProps(newPlayer.player);
   }
@@ -66,7 +75,11 @@ class Game extends Component {
       this.toggleState('isDisabled');
     }
     if (questionNumber === maxLength) {
+      const { name, score, gravatarEmail } = props.player;
+      const ranking = { name, score, picture: gravatarEmail };
+      storageRanking(ranking);
       props.history.push('/feedback');
+      props.addRanking(ranking);
     }
   }
 
@@ -129,7 +142,7 @@ class Game extends Component {
     const { user, game, player } = this.props;
     const { name } = user;
     const { questions } = game;
-    const { questionNumber, resetCountDown, hasBeenChosen } = this.state;
+    const { questionNumber, resetCountDown, hasBeenChosen, isDisabled } = this.state;
     const currentQuestion = questions[questionNumber];
 
     return (
@@ -152,7 +165,7 @@ class Game extends Component {
         <button
           type="button"
           onClick={ this.handleClick }
-          className={ hasBeenChosen ? '' : 'hide' }
+          className={ hasBeenChosen || isDisabled ? '' : 'hide' }
           data-testid="btn-next"
         >
           Próxima pergunta
@@ -168,7 +181,8 @@ const mapStateToProps = (state) => ({
   player: state.player,
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ addScore }, dispatch);
+const mapDispatchToProps = (dispatch) => (
+  bindActionCreators({ addScore, addRanking }, dispatch));
 
 Game.propTypes = {
   user: shape({

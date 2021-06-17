@@ -5,6 +5,7 @@ const actions = {
   ADD_TIME: 'ADD_TIME',
   ADD_PLAYER: 'ADD_PLAYER',
   ADD_SCORE: 'ADD_SCORE',
+  ADD_RANKING: 'ADD_RANKING',
 };
 
 export default actions;
