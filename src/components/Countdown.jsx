@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { func, bool } from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import addTime from '../redux/actions/addTime';
+
+const initialState = { time: 30, hasBeenDisabled: false };
 
 class Countdown extends Component {
   constructor() {
     super();
 
-    this.state = {
-      time: 30,
-      hasBeenDisabled: false,
-    };
+    this.state = initialState;
     this.countDown = this.countDown.bind(this);
   }
 
@@ -18,6 +20,13 @@ class Countdown extends Component {
 
   componentDidUpdate() {
     this.resetState();
+    const { hasBeenChosen, addTime: addTimeProps, getTime } = this.props;
+    const { time, interval } = this.state;
+    const checkTime = time !== getTime;
+    if (hasBeenChosen && checkTime) {
+      addTimeProps(time);
+      clearInterval(interval);
+    }
   }
 
   resetState() {
@@ -29,12 +38,9 @@ class Countdown extends Component {
       this.toggleDisabled('hasBeenDisabled');
     }
     if (resetCountDown) {
-      this.setState({
-        time: 30,
-      });
+      this.setState(initialState);
       this.countDown();
       toggleState('resetCountDown');
-      this.toggleDisabled('hasBeenDisabled');
     }
   }
 
@@ -67,6 +73,15 @@ class Countdown extends Component {
 Countdown.propTypes = {
   toggleState: func,
   resetCountDown: bool,
+  addTime: func,
 }.isRequired;
 
-export default Countdown;
+const mapStateToProps = (state) => ({
+  getTime: state.game.time,
+});
+
+const mapDispatchToProps = (dispatch) => (
+  bindActionCreators({ addTime }, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Countdown);
