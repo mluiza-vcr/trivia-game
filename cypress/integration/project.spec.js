@@ -35,9 +35,9 @@ const RANKING_PLAYERS_NAME_SELECTOR = '[data-testid*="player-name"]';
 const BUTTON_GO_HOME_SELECTOR = '[data-testid="btn-go-home"]';
 
 const FEEDBACK_TOTAL_SCORE_SELECTOR = '[data-testid="feedback-total-score"]';
-const FEEDBACK_TOTAL_QUESTION_SELECTOR = '[data-testid="feedback-total-question"]';
+const FEEDBACK_TOTAL_QUESTION_SELECTOR =
+  '[data-testid="feedback-total-question"]';
 const BUTTON_PLAY_AGAIN_SELECTOR = '[data-testid="btn-play-again"]';
-
 
 // login
 
@@ -84,9 +84,11 @@ describe('2 - [TELA DE LOGIN] Crie o botão de iniciar o jogo', () => {
   it('Inicia jogo salvando um token de jogador', () => {
     cy.get(INPUT_PLAYER_NAME_SELECTOR).type('Nome da pessoa');
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).type('email@pessoa.com');
-    cy.get(BUTTON_PLAY_SELECTOR).click().should(() => {
-      expect(localStorage.getItem(TOKEN_KEY)).not.to.be.null;
-    });
+    cy.get(BUTTON_PLAY_SELECTOR)
+      .click()
+      .should(() => {
+        expect(localStorage.getItem(TOKEN_KEY)).not.to.be.null;
+      });
   });
 });
 
@@ -183,30 +185,78 @@ describe('7 - [TELA DE JOGO] Desenvolva o estilo que, ao clicar em uma resposta,
 
   it('Verifica cor da alternativa correta quando acerta a questão', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
-    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.css', 'border-color', 'rgb(6, 240, 15)');
-    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.css', 'border-style', 'solid');
-    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.css', 'border-width', '3px');
+    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should(
+      'have.css',
+      'border-color',
+      'rgb(6, 240, 15)'
+    );
+    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should(
+      'have.css',
+      'border-style',
+      'solid'
+    );
+    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should(
+      'have.css',
+      'border-width',
+      '3px'
+    );
   });
 
   it('Verifica a cor das alternativas incorretas quando acerta a questão', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
-    cy.get(WRONG_ALTERNATIVES_SELECTOR).should('have.css', 'border-color', 'rgb(255, 0, 0)');
-    cy.get(WRONG_ALTERNATIVES_SELECTOR).should('have.css', 'border-style', 'solid');
-    cy.get(WRONG_ALTERNATIVES_SELECTOR).should('have.css', 'border-width', '3px');
+    cy.get(WRONG_ALTERNATIVES_SELECTOR).should(
+      'have.css',
+      'border-color',
+      'rgb(255, 0, 0)'
+    );
+    cy.get(WRONG_ALTERNATIVES_SELECTOR).should(
+      'have.css',
+      'border-style',
+      'solid'
+    );
+    cy.get(WRONG_ALTERNATIVES_SELECTOR).should(
+      'have.css',
+      'border-width',
+      '3px'
+    );
   });
 
   it('Verifica cor da alternativa correta quando erra a questão', () => {
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
-    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.css', 'border-color', 'rgb(6, 240, 15)');
-    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.css', 'border-style', 'solid');
-    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.css', 'border-width', '3px');
+    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should(
+      'have.css',
+      'border-color',
+      'rgb(6, 240, 15)'
+    );
+    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should(
+      'have.css',
+      'border-style',
+      'solid'
+    );
+    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should(
+      'have.css',
+      'border-width',
+      '3px'
+    );
   });
 
   it('Verifica a cor das alternativas incorretas quando erra a questão', () => {
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
-    cy.get(WRONG_ALTERNATIVES_SELECTOR).should('have.css', 'border-color', 'rgb(255, 0, 0)');
-    cy.get(WRONG_ALTERNATIVES_SELECTOR).should('have.css', 'border-style', 'solid');
-    cy.get(WRONG_ALTERNATIVES_SELECTOR).should('have.css', 'border-width', '3px');
+    cy.get(WRONG_ALTERNATIVES_SELECTOR).should(
+      'have.css',
+      'border-color',
+      'rgb(255, 0, 0)'
+    );
+    cy.get(WRONG_ALTERNATIVES_SELECTOR).should(
+      'have.css',
+      'border-style',
+      'solid'
+    );
+    cy.get(WRONG_ALTERNATIVES_SELECTOR).should(
+      'have.css',
+      'border-width',
+      '3px'
+    );
   });
 });
 
@@ -247,22 +297,27 @@ describe('9 - [TELA DE JOGO] Crie o placar com as seguintes características:', 
 
   it('Soma pontos ao acertar uma questão', () => {
     const then = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-    cy.get(CORRECT_ALTERNATIVE_SELECTOR).click().then(() => {
-      const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(then.player.score).to.be.lt(now.player.score);
-    });
+    cy.get(CORRECT_ALTERNATIVE_SELECTOR)
+      .click()
+      .then(() => {
+        const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
+        expect(then.player.score).to.be.lt(now.player.score);
+      });
   });
 
   it('Não soma pontos ao errar uma questão', () => {
     const then = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-    cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click().then(() => {
-      const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(then.player.score).to.be.eq(now.player.score);
-    });
+    cy.get(WRONG_ALTERNATIVES_SELECTOR)
+      .first()
+      .click()
+      .then(() => {
+        const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
+        expect(then.player.score).to.be.eq(now.player.score);
+      });
   });
 });
 
-describe('10 - [TELA DE JOGO] Crie um botão de \"Próxima\" que apareça após a resposta ser dada', () => {
+describe('10 - [TELA DE JOGO] Crie um botão de "Próxima" que apareça após a resposta ser dada', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -312,10 +367,12 @@ describe('11 - [TELA DE JOGO] Desenvolva o jogo de forma que a pessoa que joga d
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
-    cy.get(CORRECT_ALTERNATIVE_SELECTOR).click().then(() => {
-      const after = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(before.player.score).to.be.lt(after.player.score);
-    });
+    cy.get(CORRECT_ALTERNATIVE_SELECTOR)
+      .click()
+      .then(() => {
+        const after = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
+        expect(before.player.score).to.be.lt(after.player.score);
+      });
   });
 
   it('Erra todas as perguntas', () => {
@@ -328,10 +385,13 @@ describe('11 - [TELA DE JOGO] Desenvolva o jogo de forma que a pessoa que joga d
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
-    cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click().then(() => {
-      const after = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(before.player.score).to.be.eq(after.player.score);
-    });
+    cy.get(WRONG_ALTERNATIVES_SELECTOR)
+      .first()
+      .click()
+      .then(() => {
+        const after = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
+        expect(before.player.score).to.be.eq(after.player.score);
+      });
   });
 
   it('Redireciona para a tela de _feedback_ após a quinta pergunta', () => {
@@ -697,7 +757,7 @@ describe('18 - [TELA DE RANKING] Crie um botão para ir ao início', () => {
     cy.get(BUTTON_RANKING_SELECTOR).click();
     cy.get(BUTTON_GO_HOME_SELECTOR).click();
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).should('exist');
-  
+
     const storage = Object.keys(localStorage).length;
     expect(storage).to.be.lessThan(4);
   });
