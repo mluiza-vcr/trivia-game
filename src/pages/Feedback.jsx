@@ -4,17 +4,12 @@ import { connect } from 'react-redux';
 
 class Feedback extends Component {
   render() {
-    const { player } = this.props;
+    const { player, history } = this.props;
     const { name, assertions, score, gravatarEmail } = player;
 
     const minAssertions = 3;
-    const feedbackText = assertions < minAssertions
-      ? 'Podia ser melhor...'
-      : 'Mandou bem!';
-
-    // const assertionsText = assertions
-    //   ? `Acertou ${assertions} perguntas`
-    //   : 'Não acertou nenhuma pergunta';
+    const feedbackText =
+      assertions < minAssertions ? 'Podia ser melhor...' : 'Mandou bem!';
 
     return (
       <main>
@@ -22,7 +17,7 @@ class Feedback extends Component {
           <img
             data-testid="header-profile-picture"
             alt="gravatar"
-            src={ gravatarEmail }
+            src={gravatarEmail}
           />
           <span data-testid="header-player-name">{name}</span>
           <span data-testid="header-score">{score}</span>
@@ -33,6 +28,22 @@ class Feedback extends Component {
           <h1 data-testid="feedback-total-question">{assertions}</h1>
           <h2 data-testid="feedback-total-score">{score}</h2>
         </div>
+
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={() => history.push('/')}
+        >
+          Jogar novamente
+        </button>
+
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={() => history.push('/ranking')}
+        >
+          Ver Ranking
+        </button>
       </main>
     );
   }

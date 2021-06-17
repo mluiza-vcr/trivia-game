@@ -27,10 +27,14 @@ class Game extends Component {
 
   getPoints() {
     const { questionNumber } = this.state;
-    const { game: { questions, time }, player, addScore: addScoreProps } = this.props;
+    const {
+      game: { questions, time },
+      player,
+      addScore: addScoreProps,
+    } = this.props;
     const { difficulty } = questions[questionNumber];
     const numberPoints = 10;
-    const score = numberPoints + (time * level[difficulty]);
+    const score = numberPoints + time * level[difficulty];
     const newPlayer = {
       player: {
         ...player,
@@ -78,7 +82,8 @@ class Game extends Component {
       category,
       question,
       correct_answer: correctAnswer,
-      incorrect_answers: incorrectAnswers } = questions;
+      incorrect_answers: incorrectAnswers,
+    } = questions;
 
     const button = (text, index) => (
       <button
@@ -121,7 +126,7 @@ class Game extends Component {
   }
 
   render() {
-    const { user, game } = this.props;
+    const { user, game, player } = this.props;
     const { name } = user;
     const { questions } = game;
     const { questionNumber, resetCountDown, hasBeenChosen } = this.state;
@@ -130,7 +135,11 @@ class Game extends Component {
     return (
       <section>
         <header>
-          <img data-testid="header-profile-picture" alt="profile gravatar" />
+          <img
+            data-testid="header-profile-picture"
+            alt="profile gravatar"
+            src={ player.gravatarEmail }
+          />
           <h1 data-testid="header-player-name">{name}</h1>
           <p data-testid="header-score">0</p>
         </header>
@@ -159,9 +168,7 @@ const mapStateToProps = (state) => ({
   player: state.player,
 });
 
-const mapDispatchToProps = (dispatch) => (
-  bindActionCreators({ addScore }, dispatch)
-);
+const mapDispatchToProps = (dispatch) => bindActionCreators({ addScore }, dispatch);
 
 Game.propTypes = {
   user: shape({
