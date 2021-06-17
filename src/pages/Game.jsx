@@ -49,7 +49,10 @@ class Game extends Component {
   }
 
   handleClick() {
-    const { isDisabled } = this.state;
+    const { props } = this;
+    const maxLength = 4;
+
+    const { isDisabled, questionNumber } = this.state;
     this.setState((oldState) => ({
       questionNumber: oldState.questionNumber + 1,
     }));
@@ -57,6 +60,9 @@ class Game extends Component {
     this.handleChosen();
     if (isDisabled) {
       this.toggleState('isDisabled');
+    }
+    if (questionNumber === maxLength) {
+      props.history.push('/feedback');
     }
   }
 
@@ -117,10 +123,9 @@ class Game extends Component {
   render() {
     const { user, game } = this.props;
     const { name } = user;
-    const { questions, time } = game;
+    const { questions } = game;
     const { questionNumber, resetCountDown, hasBeenChosen } = this.state;
     const currentQuestion = questions[questionNumber];
-    const maxLength = 4;
 
     return (
       <section>
@@ -138,7 +143,6 @@ class Game extends Component {
         <button
           type="button"
           onClick={ this.handleClick }
-          disabled={ questionNumber === maxLength }
           className={ hasBeenChosen ? '' : 'hide' }
           data-testid="btn-next"
         >
