@@ -3,11 +3,13 @@ import { func } from 'prop-types';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 
 import addUser from '../redux/actions/addUser';
 import fetchGameThunk from '../redux/actions/addQuestion';
+import addPlayer from '../redux/actions/addPlayer';
 import { fetchToken } from '../services/api';
-import { setStorage } from '../helper/localStorage';
+import { setJson, setStorage } from '../helper/localStorage';
 
 import logo from '../trivia.png';
 import '../App.css';
@@ -54,12 +56,25 @@ class Login extends Component {
 
   async handleFetchToken() {
     const { props } = this;
+    const { player } = props;
+    const user = this.createUser();
+    const gravatar = md5(user.email).toString();
+    const gravatarEmail = `https://www.gravatar.com/avatar/${gravatar}`;
+    const newPlayer = {
+      player: {
+        ...player,
+        name: user.name,
+        gravatarEmail,
+      },
+    };
     const { token } = await fetchToken();
     setStorage('token', token);
 
-    props.addUser(this.createUser());
+    props.addUser(user);
     props.history.push('/game');
     props.fetchGameThunk(token);
+    props.addPlayer(newPlayer.player);
+    setJson('state', newPlayer);
   }
 
   render() {
@@ -103,10 +118,11 @@ class Login extends Component {
 
 const mapStateToProps = (state) => ({
   shouldRedirect: state.game.shouldRedirect,
+  player: state.player,
 });
 
 const mapDispatchToProps = (dispatch) => (
-  bindActionCreators({ addUser, fetchGameThunk }, dispatch)
+  bindActionCreators({ addUser, fetchGameThunk, addPlayer }, dispatch)
 );
 
 // const mapDispatchToProps = (dispatch) => ({
