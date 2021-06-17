@@ -7,7 +7,7 @@ import Countdown from '../components/Countdown';
 
 import addScore from '../redux/actions/addScore';
 import addRanking from '../redux/actions/addRanking';
-import { setJson, storageRanking } from '../helper/localStorage';
+import { setJson, setStorageRanking } from '../helper/localStorage';
 import level from '../services/level';
 
 import './game.css';
@@ -77,7 +77,7 @@ class Game extends Component {
     if (questionNumber === maxLength) {
       const { name, score, gravatarEmail } = props.player;
       const ranking = { name, score, picture: gravatarEmail };
-      storageRanking(ranking);
+      setStorageRanking(ranking);
       props.history.push('/feedback');
       props.addRanking(ranking);
     }

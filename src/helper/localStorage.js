@@ -7,7 +7,7 @@ export const setJson = (title, value) => (
 
 export const getJson = (title) => JSON.parse(localStorage.getItem(title));
 
-export const storageRanking = (ranking) => {
+export const setStorageRanking = (ranking) => {
   if (getJson('ranking')) {
     const rankingStorage = getJson('ranking');
     const newRankingStorage = [...rankingStorage, ranking];
@@ -16,4 +16,9 @@ export const storageRanking = (ranking) => {
   }
 
   setJson('ranking', [ranking]);
+};
+
+export const getStorageRanking = (initialState, key) => {
+  if (getJson(key)) return getJson(key);
+  return initialState;
 };

@@ -1,6 +1,8 @@
+import { getStorageRanking } from '../../helper/localStorage';
 import actions from '../actions';
 
-const INITIAL_STATE = [];
+const DEFAULT_STATE = [];
+const INITIAL_STATE = getStorageRanking(DEFAULT_STATE, 'ranking');
 
 function userReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
