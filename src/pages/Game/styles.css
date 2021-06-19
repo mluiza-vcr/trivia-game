@@ -3,42 +3,57 @@
 }
 
 .game-container {
-  min-height: 100vh;
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 2.5rem;
+  min-height: 100vh;
 }
 
 .player-container {
-  width: 100%;
   display: flex;
+  width: 100%;
 }
 
 .question-container {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 2rem;
 }
 
 .game-container > button {
+  background: var(--main-blue-color);
+  border: 1px solid rgb(8 8 8 / 45%);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  color: var(--main-white-color);
   cursor: pointer;
   font-size: 1.3rem;
-  color: var(--main-white-color);
-  font-weight: bold;
-  padding: 1rem;
-  border-radius: var(--border-radius);
-  border: 1px solid rgb(8 8 8 / 45%);
-  background: var(--main-blue-color);
-  box-shadow: var(--box-shadow);
+  font-weight: 600;
   outline: none;
+  padding: 1rem;
   transition: all 0.3s;
 }
 
+.render-main-container > div > button {
+  background: var(--main-purple-color);
+  border: 1px solid rgb(8 8 8 / 45%);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  color: var(--main-white-color);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  outline: none;
+  padding: 1rem;
+  transition: all 0.3s;
+  width: 40%;
+}
+
 .game-container > button:hover {
-   transform: scale(1.06);
-    background: var(--main-purple-color);
+  background: var(--main-purple-color);
+  transform: scale(1.06);
 }
 
 .game-container > button:active {
@@ -46,20 +61,20 @@
 }
 
 .render-main-container {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  max-width: 75%;
   gap: 2rem;
+  max-width: 75%;
+  text-align: center;
 }
 
 .render-main-container > div {
   display: flex;
-  width: 60%;
-  justify-content: center;
   flex-wrap: wrap;
   gap: 0.8rem;
+  justify-content: center;
+  width: 60%;
 }
 
 .render-main-container > h2 {
@@ -70,21 +85,6 @@
   font-size: 2.5rem;
 }
 
-.render-main-container > div > button {
-  background: var(--main-purple-color);
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  border: 1px solid rgb(8 8 8 / 45%);
-  color: var(--main-white-color);
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: bold;
-  padding: 1rem;
-  outline: none;
-  transition: all 0.3s;
-  width: 40%;
-}
-
 .render-main-container > div > button:hover {
   background: var(--main-blue-color);
   transform: scale(1.06);
@@ -92,12 +92,4 @@
 
 .render-main-container > div > button:active {
   transform: scale(1);
-}
-
-.incorrect {
-  border: 3px solid red !important;
-}
-
-.correct {
-  border: 3px solid rgb(6, 240, 15) !important;
 }

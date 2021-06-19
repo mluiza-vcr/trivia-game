@@ -1,4 +1,4 @@
-import actions from '.';
+import actions from '..';
 
 const addScore = (payload) => ({
   type: actions.ADD_SCORE,

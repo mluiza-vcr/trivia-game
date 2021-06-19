@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { string, func, number, bool } from 'prop-types';
+import buttonStyles from '../../styles/button';
 
 class Button extends Component {
   render() {
@@ -9,7 +10,7 @@ class Button extends Component {
       <button
         key={ index }
         onClick={ () => toggleState('hasBeenChosen') }
-        className={ hasBeenChosen ? 'incorrect' : '' }
+        style={ hasBeenChosen ? buttonStyles.incorrect : {} }
         type="button"
         data-testid={ `wrong-answer-${index}` }
         disabled={ isDisabled }

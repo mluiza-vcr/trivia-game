@@ -1,4 +1,4 @@
-import actions from '.';
+import actions from '..';
 
 const addTime = (payload) => ({
   type: actions.ADD_TIME,

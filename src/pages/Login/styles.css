@@ -1,0 +1,149 @@
+/* SHAKE TRIVIA */
+.App {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.App-logo {
+  pointer-events: none;
+}
+
+.red-border {
+  border: 1px solid red;
+}
+
+.green-border {
+  border: 1px solid green;
+}
+
+@media ( prefers-reduced-motion : no-preference ) {
+
+  .App-logo {
+    animation: shake infinite 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  }
+}
+
+.App-header {
+  align-items: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(10px + 2vmin);
+  justify-content: center;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes shake {
+
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+/* STYLES */
+.title-trivia {
+  color: var(--main-white-color);
+  font-family: Sniglet , cursive;
+  font-size: 7.5rem;
+}
+
+.btn-settings {
+  background: none;
+  border: none;
+  color: var(--main-white-color);
+  cursor: pointer;
+  font-size: 2rem;
+  left: 1rem;
+  outline: none;
+  position: absolute;
+  top: 1rem;
+  transition: all 0.3s;
+}
+
+.btn-settings:hover {
+  opacity: 80%;
+}
+
+.login-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.login-container > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.input-container > input {
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  outline: none;
+  padding: 0.3rem 0.5rem;
+  transition: all 0.3s;
+}
+
+.input-container > input::placeholder {
+  opacity: 60%;
+}
+
+.login-container > button {
+  background: var(--main-purple-color);
+  border: 1px solid rgb(8 8 8 / 45%);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  color: var(--main-white-color);
+  cursor: pointer;
+  font-size: 1.3rem;
+  font-weight: 600;
+  outline: none;
+  padding: 1rem;
+  transition: all 0.3s;
+  width: 10%;
+}
+
+.login-container > button:hover {
+  background: var(--main-blue-color);
+  transform: scale(1.06);
+}
+
+.login-container > button:active {
+  transform: scale(1);
+}
+
+.login-container > button:disabled {
+  cursor: not-allowed;
+  opacity: 40%;
+}
+
+.login-container > button:disabled:hover {
+  background: var(--main-purple-color);
+  transform: scale(1);
+}

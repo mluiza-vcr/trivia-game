@@ -1,5 +1,5 @@
-import actions from '.';
-import { fetchQuestions } from '../../services/api';
+import actions from '..';
+import { fetchQuestions } from '../../../services/api';
 
 const addQuestion = (payload) => ({
   type: actions.ADD_QUESTION,

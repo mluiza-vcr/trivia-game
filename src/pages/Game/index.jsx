@@ -33,6 +33,8 @@ class Game extends Component {
     this.getPoints = this.getPoints.bind(this);
     this.getPlayer = this.getPlayer.bind(this);
     this.setLocalState = this.setLocalState.bind(this);
+    this.setNextQuestion = this.setNextQuestion.bind(this);
+    this.setFeedbackPage = this.setFeedbackPage.bind(this);
   }
 
   componentDidUpdate({ game }) {
@@ -96,6 +98,31 @@ class Game extends Component {
     this.setState({ [state]: value });
   }
 
+  setNextQuestion() {
+    const { addQuestionNumber: addQuestionNumberProps, game } = this.props;
+    const { questionNumber } = game;
+    const states = ['resetCountDown', 'hasBeenShuffled', 'hasBeenChosen'];
+
+    addQuestionNumberProps(questionNumber + 1);
+    states.forEach((state) => this.toggleState(state));
+  }
+
+  setFeedbackPage() {
+    const {
+      addQuestionNumber: addQuestionNumberProps,
+      addRanking: addRankingProps,
+      history,
+      player,
+    } = this.props;
+
+    const { name, score, gravatarEmail } = player;
+    const ranking = { name, score, picture: gravatarEmail };
+    setStorageRanking(ranking);
+    addQuestionNumberProps(0);
+    history.push('/feedback');
+    addRankingProps(ranking);
+  }
+
   shuffleAnswers(currentQuestion) {
     const {
       correct_answer: correctAnswer,
@@ -121,26 +148,16 @@ class Game extends Component {
   }
 
   handleClick() {
-    const { props } = this;
+    const { game } = this.props;
     const maxLength = 4;
     const { isDisabled } = this.state;
-    const { game: { questionNumber } } = this.props;
-    
-    props.addQuestionNumber(questionNumber + 1);
-    this.toggleState('resetCountDown');
-    this.toggleState('hasBeenShuffled');
-    this.toggleState('hasBeenChosen');
-    
+    const { questionNumber } = game;
+
+    this.setNextQuestion();
+
     if (isDisabled) this.toggleState('isDisabled');
-    
-    if (questionNumber === maxLength) {
-      const { name, score, gravatarEmail } = props.player;
-      const ranking = { name, score, picture: gravatarEmail };
-      setStorageRanking(ranking);
-      props.addQuestionNumber(0);
-      props.history.push('/feedback');
-      props.addRanking(ranking);
-    }
+
+    if (questionNumber === maxLength) this.setFeedbackPage();
   }
 
   renderMain() {
@@ -207,7 +224,9 @@ const mapStateToProps = (state) => ({
   player: state.player,
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ addScore, addRanking, addQuestionNumber }, dispatch);
+const mapDispatchToProps = (dispatch) => (
+  bindActionCreators({ addScore, addRanking, addQuestionNumber }, dispatch)
+);
 
 Game.propTypes = {
   user: shape({
