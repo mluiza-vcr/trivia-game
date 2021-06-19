@@ -7,13 +7,14 @@ import { decode } from 'he';
 import Countdown from '../../components/Countdown';
 import Button from '../../components/Button';
 
-import addScore from '../../redux/actions/addScore';
-import addRanking from '../../redux/actions/addRanking';
-import addQuestionNumber from '../../redux/actions/addQuestionNumber';
+import addScore from '../../redux/actions/player/addScore';
+import addRanking from '../../redux/actions/ranking/addRanking';
+import addQuestionNumber from '../../redux/actions/game/addQuestionNumber';
 import { setJson, setStorageRanking } from '../../helper/localStorage';
 import level from '../../services/level';
 
 import './styles.css';
+import Questions from '../../components/Questions';
 
 class Game extends Component {
   constructor(props) {
@@ -61,7 +62,9 @@ class Game extends Component {
   }
 
   getCurrentQuestion() {
-    const { game: { questions, questionNumber } } = this.props;
+    const {
+      game: { questions, questionNumber },
+    } = this.props;
     this.setState({ currentQuestion: questions[questionNumber] });
   }
 
@@ -150,51 +153,16 @@ class Game extends Component {
 
   renderMain() {
     const { hasBeenChosen, isDisabled, answers, currentQuestion } = this.state;
-    const {
-      category,
-      question,
-      correct_answer: correctAnswer,
-    } = currentQuestion;
-
-    const filteredQuestion = question || '';
 
     return (
-      <main className="render-main-container">
-        <h2 data-testid="question-category">{category}</h2>
-        <h3 data-testid="question-text">{decode(filteredQuestion)}</h3>
-
-        <div>
-          {answers.map(({ text, id }, index) => {
-            if (text !== correctAnswer) {
-              return (
-                <Button
-                  key={index}
-                  index={id}
-                  toggleState={this.toggleState}
-                  hasBeenChosen={hasBeenChosen}
-                  isDisabled={isDisabled}
-                  text={text}
-                />
-              );
-            }
-            return (
-              <button
-                key={index}
-                onClick={() => {
-                  this.toggleState('hasBeenChosen');
-                  this.getPoints();
-                }}
-                className={hasBeenChosen ? 'correct' : ''}
-                type="button"
-                data-testid="correct-answer"
-                disabled={isDisabled}
-              >
-                {correctAnswer}
-              </button>
-            );
-          })}
-        </div>
-      </main>
+      <Questions
+        hasBeenChosen={ hasBeenChosen }
+        isDisabled={ isDisabled }
+        answers={ answers }
+        currentQuestion={ currentQuestion }
+        toggleState={ this.toggleState }
+        getPoints={ this.getPoints }
+      />
     );
   }
 
@@ -202,7 +170,7 @@ class Game extends Component {
     const { user, game, player } = this.props;
     const { name } = user;
     const { questions, loaded } = game;
-    const { resetCountDown, hasBeenChosen, isDisabled } = this.state;
+    const { hasBeenChosen, isDisabled, resetCountDown } = this.state;
 
     if (!loaded) return <h1>Loading</h1>;
     return (
@@ -247,9 +215,7 @@ const mapStateToProps = (state) => ({
   player: state.player,
 });
 
-const mapDispatchToProps = (dispatch) => (
-  bindActionCreators({ addScore, addRanking, addQuestionNumber }, dispatch)
-);
+const mapDispatchToProps = (dispatch) => bindActionCreators({ addScore, addRanking, addQuestionNumber }, dispatch);
 
 Game.propTypes = {
   user: shape({
