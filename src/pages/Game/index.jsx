@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { shape, string, func } from 'prop-types';
-import { decode } from 'he';
 
 import Countdown from '../../components/Countdown';
-import Button from '../../components/Button';
 
 import addScore from '../../redux/actions/player/addScore';
 import addRanking from '../../redux/actions/ranking/addRanking';
@@ -31,7 +29,6 @@ class Game extends Component {
     };
     this.renderMain = this.renderMain.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.handleChosen = this.handleChosen.bind(this);
     this.toggleState = this.toggleState.bind(this);
     this.getPoints = this.getPoints.bind(this);
     this.getPlayer = this.getPlayer.bind(this);
@@ -127,14 +124,15 @@ class Game extends Component {
     const { props } = this;
     const maxLength = 4;
     const { isDisabled } = this.state;
-    const {
-      game: { questionNumber },
-    } = this.props;
+    const { game: { questionNumber } } = this.props;
+    
     props.addQuestionNumber(questionNumber + 1);
     this.toggleState('resetCountDown');
     this.toggleState('hasBeenShuffled');
-    this.handleChosen();
+    this.toggleState('hasBeenChosen');
+    
     if (isDisabled) this.toggleState('isDisabled');
+    
     if (questionNumber === maxLength) {
       const { name, score, gravatarEmail } = props.player;
       const ranking = { name, score, picture: gravatarEmail };
@@ -143,12 +141,6 @@ class Game extends Component {
       props.history.push('/feedback');
       props.addRanking(ranking);
     }
-  }
-
-  handleChosen() {
-    this.setState({
-      hasBeenChosen: false,
-    });
   }
 
   renderMain() {
