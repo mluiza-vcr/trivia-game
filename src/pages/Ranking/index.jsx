@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { shape, string, number } from 'prop-types';
+import addPlayer from '../../redux/actions/player/addPlayer';
+import { playAgain } from '../../helper/player';
+import { bindActionCreators } from 'redux';
 
 class Ranking extends Component {
   render() {
-    const { ranking, history } = this.props;
+    const { ranking, history, addPlayer: addPlayerProps } = this.props;
     const sortedRanking = [...ranking].sort((a, b) => b.score - a.score);
 
     return (
@@ -23,7 +26,7 @@ class Ranking extends Component {
         <button
           data-testid="btn-go-home"
           type="button"
-          onClick={ () => history.push('/') }
+          onClick={ () => playAgain(history, addPlayerProps) }
         >
           Página inicial
         </button>
@@ -36,6 +39,10 @@ const mapStateToProps = (state) => ({
   ranking: state.ranking,
 });
 
+const mapDispatchToProps = (dispatch) => (
+  bindActionCreators({ addPlayer }, dispatch)
+);
+
 Ranking.propTypes = {
   ranking: shape({
     name: string,
@@ -44,4 +51,4 @@ Ranking.propTypes = {
   }),
 }.isRequired;
 
-export default connect(mapStateToProps)(Ranking);
+export default connect(mapStateToProps, mapDispatchToProps)(Ranking);
