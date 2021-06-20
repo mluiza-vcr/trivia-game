@@ -3,24 +3,11 @@ import { shape, string, number } from 'prop-types';
 import { connect } from 'react-redux';
 
 import addPlayer from '../../redux/actions/player/addPlayer';
-import resetPlayer from '../../helper/player';
+import { playAgain } from '../../helper/player';
 
 class Feedback extends Component {
-  constructor() {
-    super();
-
-    this.playAgain = this.playAgain.bind(this);
-  }
-
-  playAgain() {
-    const { history, addPlayer: addPlayerProps } = this.props;
-
-    resetPlayer(addPlayerProps);
-    history.push('/');
-  }
-
   render() {
-    const { player, history } = this.props;
+    const { player, history, addPlayer: addPlayerProps } = this.props;
     const { name, assertions, score, gravatarEmail } = player;
 
     const minAssertions = 3;
@@ -49,7 +36,7 @@ class Feedback extends Component {
         <button
           type="button"
           data-testid="btn-play-again"
-          onClick={ this.playAgain }
+          onClick={ () => playAgain(history, addPlayerProps) }
         >
           Jogar novamente
         </button>

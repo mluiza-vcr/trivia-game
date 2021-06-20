@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { shape, string, number } from 'prop-types';
+
 import addPlayer from '../../redux/actions/player/addPlayer';
 import { playAgain } from '../../helper/player';
-import { bindActionCreators } from 'redux';
 
 class Ranking extends Component {
   render() {

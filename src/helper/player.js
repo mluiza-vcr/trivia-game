@@ -1,6 +1,6 @@
 import { setJson } from './localStorage';
 
-const resetPlayer = (actionPlayer) => {
+export const resetPlayer = (actionPlayer) => {
   const initialPlayer = {
     player: {
       name: '',
@@ -14,4 +14,7 @@ const resetPlayer = (actionPlayer) => {
   setJson('state', initialPlayer);
 };
 
-export default resetPlayer;
+export const playAgain = (history, addPlayer) => {
+  resetPlayer(addPlayer);
+  history.push('/');
+};

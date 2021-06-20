@@ -13,6 +13,7 @@ import level from '../../services/level';
 
 import './styles.css';
 import Questions from '../../components/Questions';
+import shuffleAnswers from '../../helper/game';
 
 class Game extends Component {
   constructor(props) {
@@ -53,7 +54,7 @@ class Game extends Component {
 
     if (checkShuffle) {
       const question = questions[questionNumber];
-      const shuffle = this.shuffleAnswers(question);
+      const shuffle = shuffleAnswers(question);
 
       this.setLocalState('answers', shuffle);
       this.toggleState('hasBeenShuffled');
@@ -123,24 +124,6 @@ class Game extends Component {
     addRankingProps(ranking);
   }
 
-  shuffleAnswers(currentQuestion) {
-    const {
-      correct_answer: correctAnswer,
-      incorrect_answers: incorrectAnswers,
-    } = currentQuestion;
-
-    const incorrects = incorrectAnswers.map((text, index) => ({
-      id: index,
-      text,
-    }));
-    const correct = { text: correctAnswer };
-
-    const answers = [...incorrects, correct];
-    const half = 0.5;
-    const shuffle = [...answers].sort(() => half - Math.random());
-    return shuffle;
-  }
-
   toggleState(state) {
     this.setState((oldState) => ({
       [state]: !oldState[state],
@@ -192,7 +175,7 @@ class Game extends Component {
           />
           <div>
             <h1 data-testid="header-player-name">{name}</h1>
-            <p data-testid="header-score">0</p>
+            <p data-testid="header-score">{player.score}</p>
           </div>
         </header>
         <div className="question-container">
