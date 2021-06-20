@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { func, bool } from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import addTime from '../redux/actions/addTime';
+import addTime from '../../redux/actions/game/addTime';
+import './styles.css';
 
 const initialState = { time: 30, hasBeenDisabled: false };
 
@@ -63,9 +64,9 @@ class Countdown extends Component {
   render() {
     const { time } = this.state;
     return (
-      <div>
+      <h1 className="title-countdown">
         { time }
-      </div>
+      </h1>
     );
   }
 }

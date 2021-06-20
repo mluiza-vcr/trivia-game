@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { shape, string, number } from 'prop-types';
 import { connect } from 'react-redux';
 
+import addPlayer from '../../redux/actions/player/addPlayer';
+import { playAgain } from '../../helper/player';
+
 class Feedback extends Component {
   render() {
-    const { player, history } = this.props;
+    const { player, history, addPlayer: addPlayerProps } = this.props;
     const { name, assertions, score, gravatarEmail } = player;
 
     const minAssertions = 3;
@@ -33,7 +36,7 @@ class Feedback extends Component {
         <button
           type="button"
           data-testid="btn-play-again"
-          onClick={ () => history.push('/') }
+          onClick={ () => playAgain(history, addPlayerProps) }
         >
           Jogar novamente
         </button>
@@ -54,6 +57,10 @@ const mapStateToProps = (state) => ({
   player: state.player,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  addPlayer: (player) => dispatch(addPlayer(player)),
+});
+
 Feedback.propTypes = {
   player: shape({
     name: string,
@@ -63,4 +70,4 @@ Feedback.propTypes = {
   }),
 }.isRequired;
 
-export default connect(mapStateToProps)(Feedback);
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

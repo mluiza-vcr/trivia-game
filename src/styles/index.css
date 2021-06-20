@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+  color: var(--main-white-color);
+  font-family: Montserrat Alternates , sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+
+  --main-blue-color: #348ac7;
+
+  --secundary-blue-color: #28d7f9;
+
+  --main-purple-color: #7474bf;
+
+  --main-hover-purple-color: #8181c2;
+
+  --main-white-color: snow;
+
+  --border-radius: 12px;
+
+  --box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+}
+
+h1, h2 {
+  font-family: Poppins , sans-serif;
+}
+
+body {
+  background: linear-gradient(90deg, var(--main-blue-color), var(--main-purple-color));
+}
+
+code {
+  font-family: source-code-pro , Menlo , Monaco , Consolas , Courier New , monospace;
+}

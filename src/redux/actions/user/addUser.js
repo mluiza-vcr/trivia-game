@@ -1,4 +1,4 @@
-import actions from '.';
+import actions from '..';
 
 const addUser = (payload) => ({
   type: actions.ADD_USER,

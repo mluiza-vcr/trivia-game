@@ -1,4 +1,4 @@
-import actions from '.';
+import actions from '..';
 
 const addPlayer = (payload) => ({
   type: actions.ADD_PLAYER,
